@@ -59,10 +59,7 @@ class _RegisterViewState extends State<RegisterView> {
                         controller: userController,
                         obscureText: false,
                         hintText: 'Digite seu nome',
-                        icon: Icon(
-                          Icons.person_outline_rounded,
-                          color: themes.colorScheme.tertiary,
-                        ),
+                        icon: Icons.person_outline_rounded,
                       ),
                       const SizedBox(height: 20),
 
@@ -70,10 +67,7 @@ class _RegisterViewState extends State<RegisterView> {
                         controller: emailController,
                         obscureText: false,
                         hintText: 'Digite seu email',
-                        icon: Icon(
-                          Icons.alternate_email,
-                          color: themes.colorScheme.tertiary,
-                        ),
+                        icon: Icons.alternate_email,
                       ),
                       const SizedBox(height: 20),
 
@@ -82,8 +76,7 @@ class _RegisterViewState extends State<RegisterView> {
                         controller: passwordController,
                         obscureText: true,
                         hintText: 'Digite sua senha',
-                        icon: Icon(Icons.lock_outline_rounded,
-                            color: themes.colorScheme.tertiary),
+                        icon:Icons.lock_outline_rounded,
                       ),
                       const SizedBox(height: 30),
 
@@ -91,8 +84,7 @@ class _RegisterViewState extends State<RegisterView> {
                         controller: confirmPasswordController,
                         obscureText: true,
                         hintText: 'Confirme sua senha',
-                        icon: Icon(Icons.lock_outline_rounded,
-                            color: themes.colorScheme.tertiary),
+                        icon: Icons.lock_outline_rounded,
                       ),
                       const SizedBox(height: 30),
                       MyButton(text: 'Registrar', onTap: (){

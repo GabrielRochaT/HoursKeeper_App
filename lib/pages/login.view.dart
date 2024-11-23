@@ -63,10 +63,7 @@ class _LoginViewState extends State<LoginView> {
                         controller: emailController,
                         obscureText: false,
                         hintText: 'Digite seu email',
-                        icon: Icon(
-                          Icons.alternate_email,
-                          color: themes.colorScheme.tertiary,
-                        ),
+                        icon: Icons.alternate_email,
                       ),
                       const SizedBox(height: 20),
 
@@ -74,8 +71,7 @@ class _LoginViewState extends State<LoginView> {
                         controller: passwordController,
                         obscureText: true,
                         hintText: 'Digite sua senha',
-                        icon: Icon(Icons.lock_outline_rounded,
-                            color: themes.colorScheme.tertiary),
+                        icon: Icons.lock_outline_rounded,
                       ),
                       const SizedBox(height: 30),
                       MyButton(

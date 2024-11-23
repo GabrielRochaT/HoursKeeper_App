@@ -8,9 +8,13 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: themes.colorScheme.surface,
       appBar: AppBar(
-        title: const Text('Home'),
         backgroundColor: themes.colorScheme.primary,
+        flexibleSpace: Padding(
+          padding: const EdgeInsets.only(top: 30),
+          child: Image.asset('lib/assets/images/logo_white.png', height: 50, width: 50,),
+        ),
       ),
       drawer: MyDrawer(),
       body: const Center(

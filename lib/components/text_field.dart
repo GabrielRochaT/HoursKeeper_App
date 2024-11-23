@@ -5,7 +5,7 @@ class MyTextField extends StatelessWidget {
   final TextEditingController controller;
   final bool obscureText;
   final String hintText;
-  final Icon icon;
+  final IconData? icon;
 
   const MyTextField(
       {super.key,
@@ -23,7 +23,7 @@ class MyTextField extends StatelessWidget {
             obscureText: obscureText,
             cursorColor: themes.colorScheme.tertiary,
             decoration: InputDecoration(
-              prefixIcon: icon,
+              prefixIcon: Icon(icon, color: themes.colorScheme.tertiary,),
               focusColor: themes.colorScheme.tertiary,
               filled: true,
               fillColor: themes.colorScheme.inversePrimary,
