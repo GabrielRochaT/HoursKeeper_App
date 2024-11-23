@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hours_keeper/components/button.dart';
 import 'package:hours_keeper/components/text_field.dart';
 import 'package:hours_keeper/components/theme.dart';
+import 'package:hours_keeper/pages/home.view.dart';
 // import 'package:google_fonts/google_fonts.dart';
 
 class LoginView extends StatefulWidget {
@@ -14,6 +15,14 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
+  void signIn() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomeView(),
+        ));
+  }
+
   @override
   Widget build(BuildContext context) {
     TextEditingController emailController = TextEditingController();
@@ -33,14 +42,11 @@ class _LoginViewState extends State<LoginView> {
               ),
               Text('Olá, entre na sua conta.',
                   style: TextStyle(
-                    fontSize: 32,
-                    color: themes.colorScheme.tertiary,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Lato'
-                  )
-              ),
+                      fontSize: 32,
+                      color: themes.colorScheme.tertiary,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Lato')),
               const SizedBox(height: 22),
-
               Card(
                 elevation: 5,
                 shape: RoundedRectangleBorder(
@@ -72,9 +78,12 @@ class _LoginViewState extends State<LoginView> {
                             color: themes.colorScheme.tertiary),
                       ),
                       const SizedBox(height: 30),
-                      MyButton(text: 'Entrar', onTap: (){
-                        print('Entrar');
-                      },),
+                      MyButton(
+                        text: 'Entrar',
+                        onTap: () {
+                          signIn();
+                        },
+                      ),
                       const SizedBox(height: 20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
