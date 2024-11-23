@@ -21,8 +21,8 @@ class MyDrawer extends StatelessWidget {
           Divider(color: themes.colorScheme.inversePrimary),
           MyTile(title: 'Perfil', onTap: () {}, icon: Icons.person),
           Divider(color: themes.colorScheme.inversePrimary),
+          Spacer(),
           MyTile(title: 'Sair', onTap: () {}, icon: Icons.logout_rounded),
-          Divider(color: themes.colorScheme.inversePrimary),
         ],
       ),
     );
