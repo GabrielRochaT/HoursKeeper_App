@@ -27,7 +27,7 @@ class ProjectCard extends StatelessWidget {
           children: [
             GetPriority(priority: priority),
             SizedBox(width: 6,),
-            Text(title, style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: themes.colorScheme.inversePrimary),),
+            Text(title, style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: themes.colorScheme.inversePrimary, fontFamily: 'Lato'),),
             Spacer(),
             StatusTag(status: status)
           ],

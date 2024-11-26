@@ -3,6 +3,7 @@ import 'package:hours_keeper/components/action_button.dart';
 import 'package:hours_keeper/components/drawer.dart';
 import 'package:hours_keeper/components/project_card.dart';
 import 'package:hours_keeper/components/theme.dart';
+import 'package:hours_keeper/pages/create_project.view.dart';
 import 'package:hours_keeper/pages/project_details.view.dart';
 
 class HomeView extends StatefulWidget {
@@ -16,6 +17,9 @@ class _HomeViewState extends State<HomeView> {
 
   void navigateToProjectDetails() {
     Navigator.push(context, MaterialPageRoute(builder: (context) => ProjectDetailsView()));
+  }
+  void navigateToAddProject() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => CreateProjectView()));
   }
 
 
@@ -66,7 +70,9 @@ class _HomeViewState extends State<HomeView> {
                         children: [
                           ActionButton(text: 'Registrar Horas'),
                           const SizedBox(width: 17),
-                          ActionButton(text: 'Novo Projeto'),
+                          ActionButton(text: 'Novo Projeto', onTap: () {
+                            navigateToAddProject();
+                          }),
                         ],
                       ),
           

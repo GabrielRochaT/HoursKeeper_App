@@ -12,7 +12,7 @@ class MyTextField extends StatelessWidget {
       required this.controller,
       required this.obscureText,
       required this.hintText,
-      required this.icon});
+      this.icon});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class MyTextField extends StatelessWidget {
             obscureText: obscureText,
             cursorColor: themes.colorScheme.tertiary,
             decoration: InputDecoration(
-              prefixIcon: Icon(icon, color: themes.colorScheme.tertiary,),
+              prefixIcon: icon != null ? Icon(icon, color: themes.colorScheme.tertiary) : null,
               focusColor: themes.colorScheme.tertiary,
               filled: true,
               fillColor: themes.colorScheme.inversePrimary,
