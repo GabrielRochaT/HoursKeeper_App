@@ -5,6 +5,7 @@ class MyTextField extends StatelessWidget {
   final TextEditingController controller;
   final bool obscureText;
   final String hintText;
+  final String? Function(String?)? validator;
   final IconData? icon;
 
   const MyTextField(
@@ -12,13 +13,14 @@ class MyTextField extends StatelessWidget {
       required this.controller,
       required this.obscureText,
       required this.hintText,
-      this.icon});
+      this.icon, this.validator});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25),
-        child: TextField(
+        child: TextFormField(
+            validator: validator,
             controller: controller,
             obscureText: obscureText,
             cursorColor: themes.colorScheme.tertiary,

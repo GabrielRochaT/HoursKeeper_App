@@ -7,7 +7,6 @@ import 'package:hours_keeper/pages/home.view.dart';
 
 class LoginView extends StatefulWidget {
   final void Function()? onTap;
-
   const LoginView({super.key, required this.onTap});
 
   @override
@@ -22,6 +21,8 @@ class _LoginViewState extends State<LoginView> {
           builder: (context) => HomeView(),
         ));
   }
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -56,50 +57,63 @@ class _LoginViewState extends State<LoginView> {
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 45),
-                  child: Column(
-                    children: [
-                      // Campo de email
-                      MyTextField(
-                        controller: emailController,
-                        obscureText: false,
-                        hintText: 'Digite seu email',
-                        icon: Icons.alternate_email,
-                      ),
-                      const SizedBox(height: 20),
-
-                      MyTextField(
-                        controller: passwordController,
-                        obscureText: true,
-                        hintText: 'Digite sua senha',
-                        icon: Icons.lock_outline_rounded,
-                      ),
-                      const SizedBox(height: 30),
-                      MyButton(
-                        text: 'Entrar',
-                        onTap: () {
-                          signIn();
-                        },
-                      ),
-                      const SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text('Não possui conta? ',
-                              style: TextStyle(
-                                  color: themes.colorScheme.inversePrimary,
-                                  fontSize: 16)),
-                          GestureDetector(
-                            onTap: widget.onTap,
-                            child: Text('Cadastre-se',
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        // Campo de email
+                        MyTextField(
+                          validator: (value){
+                            if(value == null || value.isEmpty){
+                              return 'O email deve ser preeechido';
+                            }
+                    
+                            if (!value.contains('@') || value.length < 5) {
+                              return 'Email inválido';
+                            }
+                            return null;
+                          },
+                          controller: emailController,
+                          obscureText: false,
+                          hintText: 'Digite seu email',
+                          icon: Icons.alternate_email,
+                        ),
+                        const SizedBox(height: 20),
+                    
+                        MyTextField(
+                          controller: passwordController,
+                          obscureText: true,
+                          hintText: 'Digite sua senha',
+                          icon: Icons.lock_outline_rounded,
+                        ),
+                        const SizedBox(height: 30),
+                        MyButton(
+                          text: 'Entrar',
+                          onTap: () {
+                            enterButtonPressed();
+                          },
+                        ),
+                        const SizedBox(height: 20),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('Não possui conta? ',
                                 style: TextStyle(
-                                    color: themes.colorScheme.tertiary,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'Lato',
+                                    color: themes.colorScheme.inversePrimary,
                                     fontSize: 16)),
-                          )
-                        ],
-                      )
-                    ],
+                            GestureDetector(
+                              onTap: widget.onTap,
+                              child: Text('Cadastre-se',
+                                  style: TextStyle(
+                                      color: themes.colorScheme.tertiary,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'Lato',
+                                      fontSize: 16)),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -108,5 +122,13 @@ class _LoginViewState extends State<LoginView> {
         ),
       ),
     );
+  }
+
+  enterButtonPressed(){
+    if(_formKey.currentState!.validate()){
+      signIn();
+    }else{
+      print('Formulário inválido');
+    }
   }
 }
