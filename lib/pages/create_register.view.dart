@@ -1,25 +1,55 @@
 import 'package:flutter/material.dart';
-import 'package:hours_keeper/components/date_field.dart';
+import 'package:intl/intl.dart';
 import 'package:hours_keeper/components/drawer.dart';
-import 'package:hours_keeper/components/priority_select.dart';
+import 'package:hours_keeper/components/hour_field.dart';
+import 'package:hours_keeper/components/project_select.dart';
 import 'package:hours_keeper/components/text_field.dart';
 import 'package:hours_keeper/components/theme.dart';
 
-class CreateProjectView extends StatefulWidget {
-  const CreateProjectView({super.key});
+class CreateRegisterView extends StatefulWidget {
+  const CreateRegisterView({super.key});
 
   @override
-  State<CreateProjectView> createState() => _CreateProjectViewState();
+  State<CreateRegisterView> createState() => _CreateRegisterViewState();
 }
 
-class _CreateProjectViewState extends State<CreateProjectView> {
-  @override
-  Widget build(BuildContext context) {
-    TextEditingController title = TextEditingController();
-    TextEditingController description = TextEditingController();
-    TextEditingController startDate = TextEditingController();
-    TextEditingController endDate = TextEditingController();
+class _CreateRegisterViewState extends State<CreateRegisterView> {
+  TextEditingController description = TextEditingController();
+  TextEditingController startHour = TextEditingController();
+  TextEditingController endHour = TextEditingController();
+  Duration? totalHours;
 
+  
+    void _calculateHours() {
+      print('Start hour: ${startHour.text}, End hour: ${endHour.text}');
+      if (startHour.text.isNotEmpty && endHour.text.isNotEmpty) {
+        try {
+          final startTime = DateFormat('yyyy-MM-dd HH:mm').parse(startHour.text);
+          final endTime =
+              DateFormat('yyyy-MM-dd HH:mm').parse(endHour.text); // Usando o valor correto
+
+          final difference = endTime.difference(startTime);
+
+          if (difference.isNegative) {
+            final endTimeAdjusted = endTime.add(const Duration(days: 1));
+            setState(() {
+              totalHours = endTimeAdjusted.difference(startTime);
+            });
+          } else {
+            print('Difference: $difference');
+            setState(() {
+              totalHours = difference;
+            });
+          }
+        } catch (e) {
+          setState(() {
+            totalHours = null;
+          });
+        }
+      }
+    }
+@override
+  Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: themes.colorScheme.surface,
         appBar: AppBar(
@@ -41,7 +71,7 @@ class _CreateProjectViewState extends State<CreateProjectView> {
               Padding(
                 padding: const EdgeInsets.only(top: 24),
                 child: Text(
-                  'Adicionar novo projeto',
+                  'Adicionar registro de horas',
                   style: TextStyle(
                       color: themes.colorScheme.tertiary,
                       fontFamily: 'Lato',
@@ -56,7 +86,7 @@ class _CreateProjectViewState extends State<CreateProjectView> {
                   Padding(
                     padding: const EdgeInsets.only(top: 24, left: 29),
                     child: Text(
-                      'Titulo do projeto',
+                      'Projeto',
                       style: TextStyle(
                           color: themes.colorScheme.tertiary,
                           fontFamily: 'Lato',
@@ -64,33 +94,9 @@ class _CreateProjectViewState extends State<CreateProjectView> {
                           fontWeight: FontWeight.bold),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8),
-                    child: MyTextField(
-                      controller: title,
-                      obscureText: false,
-                      hintText: '',
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 24, left: 29),
-                    child: Text(
-                      'Descrição',
-                      style: TextStyle(
-                          color: themes.colorScheme.tertiary,
-                          fontFamily: 'Lato',
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8),
-                    child: MyTextField(
-                      controller: description,
-                      obscureText: false,
-                      hintText: '',
-                    ),
-                  ),
+                  ProjectDropdown(onChanged: (value) {
+                    print(value);
+                  }),
                   Padding(
                     padding: const EdgeInsets.only(top: 24),
                     child: Row(
@@ -103,7 +109,7 @@ class _CreateProjectViewState extends State<CreateProjectView> {
                               Padding(
                                 padding: const EdgeInsets.only(left: 24),
                                 child: Text(
-                                  'Data de Início',
+                                  'Hora Inicial',
                                   style: TextStyle(
                                       color: themes.colorScheme.tertiary,
                                       fontSize: 16,
@@ -111,7 +117,11 @@ class _CreateProjectViewState extends State<CreateProjectView> {
                                       fontFamily: 'Lato'),
                                 ),
                               ),
-                              DatePickerField(controller: startDate),
+                              HourPickerField(
+                                  controller: startHour,
+                                  onChanged: (value) {
+                                    _calculateHours();
+                                  }),
                             ],
                           ),
                         ),
@@ -122,7 +132,7 @@ class _CreateProjectViewState extends State<CreateProjectView> {
                               Padding(
                                 padding: const EdgeInsets.only(left: 24),
                                 child: Text(
-                                  'Data de Término',
+                                  'Hora Final',
                                   style: TextStyle(
                                       color: themes.colorScheme.tertiary,
                                       fontSize: 16,
@@ -130,7 +140,12 @@ class _CreateProjectViewState extends State<CreateProjectView> {
                                       fontFamily: 'Lato'),
                                 ),
                               ),
-                              DatePickerField(controller: endDate),
+                              HourPickerField(
+                                controller: endHour,
+                                onChanged: (value) {
+                                  _calculateHours();
+                                },
+                              ),
                             ],
                           ),
                         ),
@@ -138,9 +153,12 @@ class _CreateProjectViewState extends State<CreateProjectView> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 24, left: 29),
+                    padding:
+                        const EdgeInsets.only(top: 24, left: 29, bottom: 8),
                     child: Text(
-                      'Prioridade',
+                      totalHours != null
+                          ? 'Total de horas: ${totalHours!.inHours}h${totalHours!.inMinutes.remainder(60)}m'
+                          : 'Total de horas: 0h ',
                       style: TextStyle(
                           color: themes.colorScheme.tertiary,
                           fontFamily: 'Lato',
@@ -148,9 +166,6 @@ class _CreateProjectViewState extends State<CreateProjectView> {
                           fontWeight: FontWeight.bold),
                     ),
                   ),
-                  PriorityDropdown(onChanged: (value) {
-                    print(value);
-                  }),
                   Padding(
                     padding:
                         const EdgeInsets.only(top: 24, left: 29, bottom: 8),
@@ -189,9 +204,24 @@ class _CreateProjectViewState extends State<CreateProjectView> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 24, right: 29, top: 25, bottom: 25),
-                    child: Row(
-                      children: [
+                    padding: const EdgeInsets.only(top: 24, left: 29),
+                    child: Text(
+                      'Detalhes',
+                      style: TextStyle(
+                          color: themes.colorScheme.tertiary,
+                          fontFamily: 'Lato',
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  MyTextField(
+                      controller: description,
+                      obscureText: false,
+                      hintText: ''),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 24, right: 29, top: 25, bottom: 25),
+                    child: Row(children: [
                       GestureDetector(
                         onTap: () {
                           Navigator.pop(context);
@@ -240,8 +270,7 @@ class _CreateProjectViewState extends State<CreateProjectView> {
                           ),
                         ),
                       ),
-                      ]
-                    ),
+                    ]),
                   )
                 ],
               ),

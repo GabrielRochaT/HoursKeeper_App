@@ -21,8 +21,17 @@ class ProjectCard extends StatelessWidget {
         height: 70,
         padding: EdgeInsets.only(top: 26, bottom: 26, left: 16, right: 16),
         decoration: BoxDecoration(
-            color: Color.fromRGBO(188, 191, 193, 1),
-            borderRadius: BorderRadius.circular(11),),
+            color: Color.fromRGBO(218, 218, 218, 1),
+            borderRadius: BorderRadius.circular(11),
+            boxShadow: [
+              BoxShadow(
+                color: Color.fromRGBO(0, 0, 0, 0.25),
+                offset: Offset(0, 4),
+                blurRadius: 4,
+              )
+            ]),
+        
+            
         child: Row(
           children: [
             GetPriority(priority: priority),
