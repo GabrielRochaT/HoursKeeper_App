@@ -5,19 +5,54 @@ import 'package:hours_keeper/components/priority_tag.dart';
 import 'package:hours_keeper/components/status_tag.dart';
 import 'package:hours_keeper/components/theme.dart';
 import 'package:hours_keeper/components/user_tag.dart';
+import 'package:hours_keeper/models/register.dart';
 import 'package:hours_keeper/pages/create_register.view.dart';
 
 class ProjectDetailsView extends StatefulWidget {
-  // final String title = 'Projeto 1';
-  // final String description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit';
-  // final String startDate = '01/01/2021';
-  // final String endDate = '01/01/2022';
-  // final String status = 'Em andamento';
-  // final String priority = 'Alta';
-  // final String consumedHours = ;
-  // final List<String> participants = ['Usuário 1', 'Usuário 2', 'Usuário 3'];
+  ProjectDetailsView({super.key});
 
-  const ProjectDetailsView({super.key});
+  final List<RegisterModel> registers = [
+    RegisterModel(
+      id: '1',
+      // userId: '1',
+      // projectId: '1',
+      project: 'Projeto 1',
+      user: 'Usuário 1',
+      initialHour: '2024-11-11 17:05',
+      finalHour: '2024-11-11 18:10',
+      hours: '10h',
+    ),
+    RegisterModel(
+      id: '2',
+      // userId: '1',
+      // projectId: '1',
+      project: 'Projeto 2',
+      user: 'Usuário 2',
+      initialHour: '2024-11-11 17:05',
+      finalHour: '2024-11-11 18:10',
+      hours: '10h',
+    ),
+    RegisterModel(
+      id: '3',
+      // userId: '1',
+      // projectId: '1',
+      project: 'Projeto 3',
+      user: 'Usuário 3',
+      initialHour: '2024-11-11 17:05',
+      finalHour: '2024-11-11 18:10',
+      hours: '5h',
+    ),
+    RegisterModel(
+      id: '3',
+      // userId: '1',
+      // projectId: '1',
+      project: 'Projeto 4',
+      user: 'Usuário 4',
+      initialHour: '2024-11-11 17:05',
+      finalHour: '2024-11-11 18:10',
+      hours: '8h',
+    ),
+  ];
 
   @override
   State<ProjectDetailsView> createState() => _ProjectDetailsViewState();
@@ -168,12 +203,13 @@ class _ProjectDetailsViewState extends State<ProjectDetailsView> {
                                 color: themes.colorScheme.tertiary, width: 1),
                             borderRadius: BorderRadius.circular(4)),
                         child: ListView.builder(
-                            itemCount: 1,
+                            itemCount: widget.registers.length,
                             itemBuilder: (context, index) {
+                              RegisterModel register = widget.registers[index];
                               return ListTile(
-                                title: Text('Usuário 1'),
-                                subtitle: Text('01/01/2021 - 01/01/2022'),
-                                trailing: Text('0h'),
+                                title: Text(register.user),
+                                subtitle: Text('${register.initialHour} - ${register.finalHour}'),
+                                trailing: Text(register.hours),
                               );
                             }),
                       ),

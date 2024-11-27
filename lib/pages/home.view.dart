@@ -3,6 +3,7 @@ import 'package:hours_keeper/components/action_button.dart';
 import 'package:hours_keeper/components/drawer.dart';
 import 'package:hours_keeper/components/project_card.dart';
 import 'package:hours_keeper/components/theme.dart';
+import 'package:hours_keeper/models/project.dart';
 import 'package:hours_keeper/pages/create_project.view.dart';
 import 'package:hours_keeper/pages/project_details.view.dart';
 
@@ -21,6 +22,19 @@ class _HomeViewState extends State<HomeView> {
   void navigateToAddProject() {
     Navigator.push(context, MaterialPageRoute(builder: (context) => CreateProjectView()));
   }
+
+  
+  final ProjectModel project = ProjectModel(
+    id: '1',
+    title: 'Projeto Novo',
+    description: 'Descrição do projeto 1',
+    status: 'Em andamento',
+    startDate: '01/01/2021',
+    endDate: '01/01/2022',
+    consumedHours: '10',
+    participant: 'Usuário 1',
+    priority: 'Média',
+  );
 
 
   @override
@@ -98,9 +112,9 @@ class _HomeViewState extends State<HomeView> {
                               child: Column(
                                 children: [
                                 ProjectCard(
-                                  title: 'Projeto 1',
-                                  status: 'Em andamento',
-                                  priority: 'Alta',
+                                  title: project.title,
+                                  status: project.status,
+                                  priority: project.priority,
                                   onTap: () {
                                     navigateToProjectDetails();
                                   },
