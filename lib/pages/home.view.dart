@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hours_keeper/components/action_button.dart';
 import 'package:hours_keeper/components/drawer.dart';
@@ -15,6 +16,20 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  String? userName;
+
+  @override
+  void initState() {
+    super.initState();
+    _getUserInfo();
+  }
+
+  void _getUserInfo(){
+    final user = FirebaseAuth.instance.currentUser;
+    setState(() {
+      userName = user?.displayName ?? 'Usuário';
+    });
+  }
 
   void navigateToProjectDetails() {
     Navigator.push(context, MaterialPageRoute(builder: (context) => ProjectDetailsView()));
@@ -26,7 +41,7 @@ class _HomeViewState extends State<HomeView> {
   
   final ProjectModel project = ProjectModel(
     id: '1',
-    title: 'Projeto Novo',
+    title: 'Projeto Placehoder 1',
     description: 'Descrição do projeto 1',
     status: 'Em andamento',
     startDate: '01/01/2021',
@@ -61,8 +76,7 @@ class _HomeViewState extends State<HomeView> {
                 alignment: const Alignment(-1.0, -1.0),
                 child: Padding(
                   padding: const EdgeInsets.only(top: 50, left: 20),
-                  child: Text(
-                    'Olá, Usuário!',
+                  child: Text('Olá, ${userName ?? "Usuário"}',
                     style: TextStyle(
                         color: themes.colorScheme.tertiary,
                         fontFamily: 'Lato',
@@ -120,7 +134,7 @@ class _HomeViewState extends State<HomeView> {
                                   },
                                 ),
                                 ProjectCard(
-                                  title: 'Projetinho 2',
+                                  title: 'Projeto Placehoder 2',
                                   status: 'Atrasado',
                                   priority: 'Baixa',
                                   onTap: () {

@@ -26,30 +26,30 @@ class ProjectDetailsView extends StatefulWidget {
       id: '2',
       // userId: '1',
       // projectId: '1',
-      project: 'Projeto 2',
-      user: 'Usuário 2',
-      initialHour: '2024-11-11 17:05',
-      finalHour: '2024-11-11 18:10',
+      project: 'Projeto 1',
+      user: 'Usuário 1',
+      initialHour: '2024-11-12 17:05',
+      finalHour: '2024-11-12 18:10',
       hours: '10h',
     ),
     RegisterModel(
       id: '3',
       // userId: '1',
       // projectId: '1',
-      project: 'Projeto 3',
-      user: 'Usuário 3',
-      initialHour: '2024-11-11 17:05',
-      finalHour: '2024-11-11 18:10',
+      project: 'Projeto 1',
+      user: 'Usuário 1',
+      initialHour: '2024-11-13 17:05',
+      finalHour: '2024-11-13 18:10',
       hours: '5h',
     ),
     RegisterModel(
       id: '3',
       // userId: '1',
       // projectId: '1',
-      project: 'Projeto 4',
-      user: 'Usuário 4',
-      initialHour: '2024-11-11 17:05',
-      finalHour: '2024-11-11 18:10',
+      project: 'Projeto 1',
+      user: 'Usuário 1',
+      initialHour: '2024-11-14 17:05',
+      finalHour: '2024-11-14 18:10',
       hours: '8h',
     ),
   ];
@@ -89,7 +89,8 @@ class _ProjectDetailsViewState extends State<ProjectDetailsView> {
                     child: Padding(
                       padding: const EdgeInsets.only(top: 50, left: 51),
                       child: Text(
-                        'Projeto 1',
+                        //AJUSTAR PARA QUE QUEBRE A LINHA PARA NÃO PASSAR DA BORDA DA TELA
+                        'Projeto Placeholder 1',
                         style: TextStyle(
                             color: themes.colorScheme.tertiary,
                             fontFamily: 'Lato',
@@ -143,7 +144,7 @@ class _ProjectDetailsViewState extends State<ProjectDetailsView> {
                               fontFamily: 'Lato')),
                       const SizedBox(height: 5),
                       Text(
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
+                        'Descrição exemplo do projeto',
                         style: TextStyle(fontSize: 12),
                       ),
                       const SizedBox(height: 12),
@@ -154,7 +155,7 @@ class _ProjectDetailsViewState extends State<ProjectDetailsView> {
                               fontWeight: FontWeight.bold,
                               fontFamily: 'Lato')),
                       const SizedBox(height: 5),
-                      Text('01/01/2021', style: TextStyle(fontSize: 12)),
+                      Text('15/10/2024', style: TextStyle(fontSize: 12)),
                       const SizedBox(height: 12),
                       Text('Data de término',
                           style: TextStyle(
@@ -163,7 +164,7 @@ class _ProjectDetailsViewState extends State<ProjectDetailsView> {
                               fontWeight: FontWeight.bold,
                               fontFamily: 'Lato')),
                       const SizedBox(height: 5),
-                      Text('01/01/2022', style: TextStyle(fontSize: 12)),
+                      Text('10/12/2024', style: TextStyle(fontSize: 12)),
                       const SizedBox(height: 12),
                       Text('Responsável',
                           style: TextStyle(
@@ -199,6 +200,7 @@ class _ProjectDetailsViewState extends State<ProjectDetailsView> {
                         height: 200,
                         width: 300,
                         decoration: BoxDecoration(
+                            color: themes.colorScheme.inversePrimary,
                             border: Border.all(
                                 color: themes.colorScheme.tertiary, width: 1),
                             borderRadius: BorderRadius.circular(4)),

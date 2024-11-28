@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hours_keeper/auth/authentication.dart';
 import 'package:hours_keeper/components/button.dart';
+import 'package:hours_keeper/components/snackbar.dart';
 import 'package:hours_keeper/components/text_field.dart';
 import 'package:hours_keeper/components/theme.dart';
 import 'package:hours_keeper/pages/home.view.dart';
@@ -23,11 +25,12 @@ class _LoginViewState extends State<LoginView> {
   }
 
   final _formKey = GlobalKey<FormState>();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  final Authentication _authentication = Authentication();
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController emailController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
 
     return Scaffold(
       backgroundColor: themes.colorScheme.surface,
@@ -81,6 +84,16 @@ class _LoginViewState extends State<LoginView> {
                         const SizedBox(height: 20),
                     
                         MyTextField(
+                          validator: (value){
+                            if(value == null || value.isEmpty){
+                              return 'A senha deve ser preenchida';
+                            }
+                    
+                            if(value.length < 8){
+                              return 'A senha deve ter no mínimo 8 caracteres';
+                            }
+                            return null;
+                          },
                           controller: passwordController,
                           obscureText: true,
                           hintText: 'Digite sua senha',
@@ -125,8 +138,23 @@ class _LoginViewState extends State<LoginView> {
   }
 
   enterButtonPressed(){
+    String email = emailController.text;
+    String password = passwordController.text;
+
     if(_formKey.currentState!.validate()){
-      signIn();
+      _authentication.loginUser(email: email, password: password).then((String? error) {
+        if(error == null){
+          Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomeView(),
+          ),
+          );
+        }else{
+          showSnackbar(context: context, message: error);
+        }
+      });
+
     }else{
       print('Formulário inválido');
     }

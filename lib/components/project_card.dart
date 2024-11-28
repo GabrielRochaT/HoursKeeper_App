@@ -21,7 +21,7 @@ class ProjectCard extends StatelessWidget {
         height: 70,
         padding: EdgeInsets.only(top: 26, bottom: 26, left: 16, right: 16),
         decoration: BoxDecoration(
-            color: Color.fromRGBO(218, 218, 218, 1),
+            color: themes.colorScheme.inversePrimary,
             borderRadius: BorderRadius.circular(11),
             boxShadow: [
               BoxShadow(
@@ -36,7 +36,7 @@ class ProjectCard extends StatelessWidget {
           children: [
             GetPriority(priority: priority),
             SizedBox(width: 6,),
-            Text(title, style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: themes.colorScheme.inversePrimary, fontFamily: 'Lato'),),
+            Text(title, style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: themes.colorScheme.secondary, fontFamily: 'Lato'),),
             Spacer(),
             StatusTag(status: status)
           ],
