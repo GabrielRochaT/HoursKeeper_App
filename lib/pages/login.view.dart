@@ -16,13 +16,13 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-  void signIn() {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => HomeView(),
-        ));
-  }
+  // void signIn() {
+  //   Navigator.push(
+  //       context,
+  //       MaterialPageRoute(
+  //         builder: (context) => HomeView(),
+  //       ));
+  // }
 
   final _formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
@@ -77,6 +77,7 @@ class _LoginViewState extends State<LoginView> {
                             return null;
                           },
                           controller: emailController,
+                          maxLines: 1,
                           obscureText: false,
                           hintText: 'Digite seu email',
                           icon: Icons.alternate_email,
@@ -95,6 +96,7 @@ class _LoginViewState extends State<LoginView> {
                             return null;
                           },
                           controller: passwordController,
+                          maxLines: 1,
                           obscureText: true,
                           hintText: 'Digite sua senha',
                           icon: Icons.lock_outline_rounded,
@@ -144,12 +146,12 @@ class _LoginViewState extends State<LoginView> {
     if(_formKey.currentState!.validate()){
       _authentication.loginUser(email: email, password: password).then((String? error) {
         if(error == null){
-          Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => HomeView(),
-          ),
-          );
+          // Navigator.pushReplacement(
+          // context,
+          // MaterialPageRoute(
+          //   builder: (context) => HomeView(),
+          // ),
+          // );
         }else{
           showSnackbar(context: context, message: error);
         }

@@ -3,8 +3,9 @@ import 'package:hours_keeper/components/theme.dart';
 
 class PriorityDropdown extends StatefulWidget {
   final Function(String) onChanged;
+  final String? value;
 
-  const PriorityDropdown({Key? key, required this.onChanged}) : super(key: key);
+  const PriorityDropdown({Key? key, required this.onChanged, this.value}) : super(key: key);
 
   @override
   State<PriorityDropdown> createState() => _PriorityDropdownState();
@@ -33,9 +34,9 @@ class _PriorityDropdownState extends State<PriorityDropdown> {
               borderRadius: BorderRadius.circular(8),
             ),
             child: DropdownButton<String>(
-              value: selectedPriority,
+              value: widget.value != null ? widget.value : selectedPriority,
               isExpanded: true,
-              underline: const SizedBox(), // Remove a linha padrão do Dropdown
+              underline: const SizedBox(),
               items: priorities.map((priority) {
                 return DropdownMenuItem<String>(
                   value: priority,

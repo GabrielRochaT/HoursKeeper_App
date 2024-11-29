@@ -5,11 +5,15 @@ import 'package:hours_keeper/components/priority_tag.dart';
 import 'package:hours_keeper/components/status_tag.dart';
 import 'package:hours_keeper/components/theme.dart';
 import 'package:hours_keeper/components/user_tag.dart';
+import 'package:hours_keeper/models/project.dart';
 import 'package:hours_keeper/models/register.dart';
+import 'package:hours_keeper/pages/create_project.view.dart';
 import 'package:hours_keeper/pages/create_register.view.dart';
+import 'package:hours_keeper/utils/projects_service.dart';
 
 class ProjectDetailsView extends StatefulWidget {
-  ProjectDetailsView({super.key});
+  final ProjectModel projectModel;
+  ProjectDetailsView({super.key, required this.projectModel});
 
   final List<RegisterModel> registers = [
     RegisterModel(
@@ -84,18 +88,21 @@ class _ProjectDetailsViewState extends State<ProjectDetailsView> {
             children: [
               Row(
                 children: [
-                  Align(
-                    alignment: const Alignment(-1.0, -1.0),
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 50, left: 51),
-                      child: Text(
-                        //AJUSTAR PARA QUE QUEBRE A LINHA PARA NÃO PASSAR DA BORDA DA TELA
-                        'Projeto Placeholder 1',
-                        style: TextStyle(
-                            color: themes.colorScheme.tertiary,
-                            fontFamily: 'Lato',
-                            fontWeight: FontWeight.bold,
-                            fontSize: 24.0),
+                  Flexible(
+                    child: Align(
+                      alignment: const Alignment(-1.0, -1.0),
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 50, left: 51, right: 30),
+                        child: Text(
+                          //AJUSTAR PARA QUE QUEBRE A LINHA PARA NÃO PASSAR DA BORDA DA TELA
+                          widget.projectModel.title,
+                          
+                          style: TextStyle(
+                              color: themes.colorScheme.tertiary,
+                              fontFamily: 'Lato',
+                              fontWeight: FontWeight.bold,
+                              fontSize: 24.0),
+                        ),
                       ),
                     ),
                   ),
@@ -103,16 +110,17 @@ class _ProjectDetailsViewState extends State<ProjectDetailsView> {
                       padding: const EdgeInsets.only(top: 50, left: 10),
                       child: GestureDetector(
                         onTap: () {
-                          print('edit');
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => CreateProjectView(project: widget.projectModel)));
                         },
                         child: Icon(Icons.mode_edit_outline_outlined,
                             color: themes.colorScheme.primary, size: 24.0),
                       )),
                   Padding(
-                      padding: const EdgeInsets.only(top: 50, left: 10),
+                      padding: const EdgeInsets.only(top: 50, left: 10, right: 30),
                       child: GestureDetector(
                         onTap: () {
-                          print('delete');
+                          ProjectService().deleteProject(widget.projectModel.id);
+                          Navigator.pop(context);
                         },
                         child: Icon(Icons.delete_outline_outlined,
                             color: Color.fromRGBO(182, 108, 108, 1)),
@@ -123,11 +131,11 @@ class _ProjectDetailsViewState extends State<ProjectDetailsView> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 7, left: 51),
-                    child: StatusTag(status: 'Em andamento'),
+                    child: StatusTag(status: widget.projectModel.status),
                   ),
                   Padding(
                       padding: const EdgeInsets.only(top: 7, left: 26),
-                      child: PriorityTag(priority: 'Alta')),
+                      child: PriorityTag(priority: widget.projectModel.priority!)),
                 ],
               ),
               Padding(
@@ -144,7 +152,7 @@ class _ProjectDetailsViewState extends State<ProjectDetailsView> {
                               fontFamily: 'Lato')),
                       const SizedBox(height: 5),
                       Text(
-                        'Descrição exemplo do projeto',
+                        widget.projectModel.description,
                         style: TextStyle(fontSize: 12),
                       ),
                       const SizedBox(height: 12),
@@ -155,7 +163,7 @@ class _ProjectDetailsViewState extends State<ProjectDetailsView> {
                               fontWeight: FontWeight.bold,
                               fontFamily: 'Lato')),
                       const SizedBox(height: 5),
-                      Text('15/10/2024', style: TextStyle(fontSize: 12)),
+                      Text(widget.projectModel.startDate.toString(), style: TextStyle(fontSize: 12)),
                       const SizedBox(height: 12),
                       Text('Data de término',
                           style: TextStyle(
@@ -164,7 +172,7 @@ class _ProjectDetailsViewState extends State<ProjectDetailsView> {
                               fontWeight: FontWeight.bold,
                               fontFamily: 'Lato')),
                       const SizedBox(height: 5),
-                      Text('10/12/2024', style: TextStyle(fontSize: 12)),
+                      Text(widget.projectModel.endDate.toString(), style: TextStyle(fontSize: 12)),
                       const SizedBox(height: 12),
                       Text('Responsável',
                           style: TextStyle(
@@ -175,7 +183,7 @@ class _ProjectDetailsViewState extends State<ProjectDetailsView> {
                       const SizedBox(height: 5),
                       Padding(
                         padding: const EdgeInsets.only(top: 7, right: 30),
-                        child: UserTag(user: 'Antônio Victor Da Costa'),
+                        child: UserTag(user: widget.projectModel.participant ?? ''),
                       ),
                       const SizedBox(height: 12),
                       Row(
@@ -188,7 +196,7 @@ class _ProjectDetailsViewState extends State<ProjectDetailsView> {
                                   fontFamily: 'Lato')),
                           Padding(
                               padding: const EdgeInsets.only(left: 10),
-                              child: Text('0h',
+                              child: Text('${widget.projectModel.consumedHours.toString()}h',
                                   style: TextStyle(
                                     fontSize: 12,
                                   ))),

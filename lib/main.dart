@@ -7,11 +7,11 @@ import 'firebase_options.dart';
 // import 'package:hours_keeper/pages/login.view.dart';
 // import 'package:hours_keeper/pages/register.view.dart';
 
-main() async{
+main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-  options: DefaultFirebaseOptions.currentPlatform,
-);
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -35,16 +35,15 @@ class Router extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<User?>(stream: FirebaseAuth.instance.userChanges(), builder: (context, snapshot) {
-      if (snapshot.hasData){
-        return HomeView();
-      }else{
-        return LoginRegister();
-      }
-    },);
-    
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.userChanges(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return HomeView(user: snapshot.data!);
+        } else {
+          return LoginRegister();
+        }
+      },
+    );
   }
 }
-
-
-

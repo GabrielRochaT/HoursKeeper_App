@@ -1,13 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class ProjectModel {
-  final String id;
-  final String title;
-  final String description;
-  final String startDate;
-  final String endDate;
-  final String status;
-  final String priority;
-  final String consumedHours;
-  final String participant;
+   String id;
+   String title;
+   String description;
+   String startDate;
+   String endDate;
+   String status;
+   String? priority;
+   int consumedHours;
+   String? participant;
 
   ProjectModel({
     required this.id,

@@ -70,6 +70,7 @@ class _RegisterViewState extends State<RegisterView> {
                             return null;
                           },
                           controller: userController,
+                          maxLines: 1,
                           obscureText: false,
                           hintText: 'Digite seu nome',
                           icon: Icons.person_outline_rounded,
@@ -88,6 +89,7 @@ class _RegisterViewState extends State<RegisterView> {
                             return null;
                           },
                           controller: emailController,
+                          maxLines: 1,
                           obscureText: false,
                           hintText: 'Digite seu email',
                           icon: Icons.alternate_email,
@@ -107,6 +109,7 @@ class _RegisterViewState extends State<RegisterView> {
                             return null;
                           },
                           controller: passwordController,
+                          maxLines: 1,
                           obscureText: true,
                           hintText: 'Digite sua senha',
                           icon: Icons.lock_outline_rounded,
@@ -125,6 +128,7 @@ class _RegisterViewState extends State<RegisterView> {
                             return null;
                           },
                           controller: confirmPasswordController,
+                          maxLines: 1,
                           obscureText: true,
                           hintText: 'Confirme sua senha',
                           icon: Icons.lock_outline_rounded,

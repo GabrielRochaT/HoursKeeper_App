@@ -25,8 +25,8 @@ class MyDrawer extends StatelessWidget {
           MyTile(
               title: 'Home',
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => HomeView()));
+                // Navigator.push(context,
+                //     MaterialPageRoute(builder: (context) => HomeView()));
               },
               icon: Icons.home_filled),
           Divider(color: themes.colorScheme.inversePrimary),

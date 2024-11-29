@@ -7,13 +7,15 @@ class MyTextField extends StatelessWidget {
   final String hintText;
   final String? Function(String?)? validator;
   final IconData? icon;
+  final int? maxLines;
+  final int? maxLenght;
 
   const MyTextField(
       {super.key,
       required this.controller,
       required this.obscureText,
       required this.hintText,
-      this.icon, this.validator});
+      this.icon, this.validator, this.maxLines, this.maxLenght});
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +26,8 @@ class MyTextField extends StatelessWidget {
             controller: controller,
             obscureText: obscureText,
             cursorColor: themes.colorScheme.tertiary,
+            maxLines: maxLines,
+            maxLength: maxLenght,
             decoration: InputDecoration(
               prefixIcon: icon != null ? Icon(icon, color: themes.colorScheme.tertiary) : null,
               focusColor: themes.colorScheme.tertiary,
