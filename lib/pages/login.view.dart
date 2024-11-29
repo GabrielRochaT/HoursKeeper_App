@@ -4,7 +4,6 @@ import 'package:hours_keeper/components/button.dart';
 import 'package:hours_keeper/components/snackbar.dart';
 import 'package:hours_keeper/components/text_field.dart';
 import 'package:hours_keeper/components/theme.dart';
-import 'package:hours_keeper/pages/home.view.dart';
 // import 'package:google_fonts/google_fonts.dart';
 
 class LoginView extends StatefulWidget {

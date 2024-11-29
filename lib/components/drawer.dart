@@ -3,7 +3,6 @@ import 'package:hours_keeper/auth/authentication.dart';
 // import 'package:hours_keeper/auth/login_register.dart';
 import 'package:hours_keeper/components/theme.dart';
 import 'package:hours_keeper/components/tile.dart';
-import 'package:hours_keeper/pages/home.view.dart';
 import 'package:hours_keeper/pages/profile.view.dart';
 
 class MyDrawer extends StatelessWidget {

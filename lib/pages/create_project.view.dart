@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hours_keeper/components/date_field.dart';
@@ -9,7 +9,6 @@ import 'package:hours_keeper/components/theme.dart';
 import 'package:hours_keeper/models/project.dart';
 import 'package:hours_keeper/utils/projects_service.dart';
 import 'package:uuid/uuid.dart';
-import 'package:intl/intl.dart';
 
 class CreateProjectView extends StatefulWidget {
   final ProjectModel? project;
