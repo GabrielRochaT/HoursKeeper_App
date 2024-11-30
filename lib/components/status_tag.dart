@@ -5,6 +5,16 @@ class StatusTag extends StatelessWidget {
   final String status;
   const StatusTag ({super.key, required this.status});
 
+  Color verifyStatus(String status){
+    if(status == 'Em andamento'){
+      return themes.colorScheme.tertiary;
+    } else if(status == 'Concluído'){
+      return Color.fromRGBO(168, 168, 168, 1);
+    }else{
+      return Color.fromRGBO(182, 108, 108, 1);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -13,7 +23,7 @@ class StatusTag extends StatelessWidget {
         // margin: EdgeInsets.symmetric(horizontal: 100),
         decoration: BoxDecoration(
 
-            color: status == 'Em andamento' ? themes.colorScheme.tertiary : Color.fromRGBO(182, 108, 108, 1),
+            color: verifyStatus(status),
             borderRadius: BorderRadius.circular(9)),
 
         child: Center(

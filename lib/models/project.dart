@@ -1,10 +1,12 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class ProjectModel {
    String id;
    String title;
    String description;
-   String startDate;
-   String endDate;
+   DateTime startDate;
+   DateTime endDate;
    String status;
    String? priority;
    int consumedHours;
@@ -26,8 +28,8 @@ class ProjectModel {
       : id = map["id"],
         title = map["title"],
         description = map["description"],
-        startDate = map["startDate"],
-        endDate = map["endDate"],
+        startDate = (map["startDate"] as Timestamp).toDate(),
+        endDate = (map["endDate"] as Timestamp).toDate(),
         status = map["status"],
         priority = map["priority"],
         consumedHours = map["consumedHours"],
@@ -38,12 +40,13 @@ class ProjectModel {
             "id": id,
             "title": title,
             "description": description,
-            "startDate": startDate,
-            "endDate": endDate,
+            "startDate": Timestamp.fromDate(startDate),
+            "endDate": Timestamp.fromDate(endDate),
             "status": status,
             "priority": priority,
             "consumedHours": consumedHours,
             "participant": participant,
           };
         }
+
 }

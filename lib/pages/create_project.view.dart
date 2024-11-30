@@ -32,8 +32,8 @@ class _CreateProjectViewState extends State<CreateProjectView> {
     if (widget.project != null) {
       _title.text = widget.project!.title;
       _description.text = widget.project!.description;
-      _startDate.text = widget.project!.startDate;
-      _endDate.text = widget.project!.endDate;
+      _startDate.text = widget.project!.startDate.toString();
+      _endDate.text = widget.project!.endDate.toString();
       selectedPriority = widget.project!.priority;
     }
     super.initState();
@@ -260,8 +260,8 @@ class _CreateProjectViewState extends State<CreateProjectView> {
 
     String title = _title.text;
     String description = _description.text;
-    String startDate = _startDate.text;
-    String endDate = _endDate.text;
+    DateTime startDate = DateTime.parse(_startDate.text);
+    DateTime endDate = DateTime.parse(_endDate.text);
     String? priority = selectedPriority;
     String status = 'Em andamento';
     int consumedHours = 0;

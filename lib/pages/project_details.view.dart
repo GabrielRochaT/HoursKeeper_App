@@ -10,6 +10,7 @@ import 'package:hours_keeper/models/register.dart';
 import 'package:hours_keeper/pages/create_project.view.dart';
 import 'package:hours_keeper/pages/create_register.view.dart';
 import 'package:hours_keeper/utils/projects_service.dart';
+import 'package:intl/intl.dart';
 
 class ProjectDetailsView extends StatefulWidget {
   final ProjectModel projectModel;
@@ -63,8 +64,11 @@ class ProjectDetailsView extends StatefulWidget {
 }
 
 class _ProjectDetailsViewState extends State<ProjectDetailsView> {
-  void navigateToAddRegister(){
-    Navigator.push(context, MaterialPageRoute(builder: (context) => CreateRegisterView()));
+
+
+  void navigateToAddRegister() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => CreateRegisterView()));
   }
 
   @override
@@ -92,11 +96,12 @@ class _ProjectDetailsViewState extends State<ProjectDetailsView> {
                     child: Align(
                       alignment: const Alignment(-1.0, -1.0),
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 50, left: 51, right: 30),
+                        padding:
+                            const EdgeInsets.only(top: 50, left: 51, right: 30),
                         child: Text(
                           //AJUSTAR PARA QUE QUEBRE A LINHA PARA NÃO PASSAR DA BORDA DA TELA
                           widget.projectModel.title,
-                          
+
                           style: TextStyle(
                               color: themes.colorScheme.tertiary,
                               fontFamily: 'Lato',
@@ -110,17 +115,76 @@ class _ProjectDetailsViewState extends State<ProjectDetailsView> {
                       padding: const EdgeInsets.only(top: 50, left: 10),
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => CreateProjectView(project: widget.projectModel)));
+                          if (widget.projectModel.status == "Em andamento"){
+                            SnackBar snackBar = SnackBar(
+                              content: Text(
+                                  'Tem certeza que deseja concluir "${widget.projectModel.title}"?'),
+                              backgroundColor: themes.colorScheme.primary,
+                              action: SnackBarAction(
+                                  label: 'SIM',
+                                  textColor: themes.colorScheme.inversePrimary,
+                                  onPressed: () {
+                                    ProjectService().changeStatus(widget.projectModel.id);
+                                    setState(() {
+                                      widget.projectModel.status = "Concluido";
+                                    });
+                                  }),
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                          }else{
+                            SnackBar snackBar = SnackBar(
+                              content: Text(
+                                  'Tem certeza que deseja reabrir "${widget.projectModel.title}"?'),
+                              backgroundColor: themes.colorScheme.primary,
+                              action: SnackBarAction(
+                                  label: 'SIM',
+                                  textColor: themes.colorScheme.inversePrimary,
+                                  onPressed: () {
+                                    ProjectService().changeStatus(widget.projectModel.id);
+                                    setState(() {
+                                      widget.projectModel.status = "Em andamento";
+                                    });
+                                  }),
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                            
+                          }
                         },
-                        child: Icon(Icons.mode_edit_outline_outlined,
+                        child: Icon((widget.projectModel.status == "Em andamento" ? Icons.check_box_outline_blank : Icons.check_box_outlined),
                             color: themes.colorScheme.primary, size: 24.0),
                       )),
                   Padding(
-                      padding: const EdgeInsets.only(top: 50, left: 10, right: 30),
+                      padding: const EdgeInsets.only(top: 50, left: 10),
                       child: GestureDetector(
                         onTap: () {
-                          ProjectService().deleteProject(widget.projectModel.id);
-                          Navigator.pop(context);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => CreateProjectView(
+                                      project: widget.projectModel)));
+                        },
+                        child: Icon(Icons.edit_outlined,
+                            color: themes.colorScheme.primary, size: 24.0),
+                      )),
+                  Padding(
+                      padding:
+                          const EdgeInsets.only(top: 50, left: 10, right: 30),
+                      child: GestureDetector(
+                        onTap: () {
+                          SnackBar snackBar = SnackBar(
+                            content: Text(
+                                'Tem certeza que deseja remover "${widget.projectModel.title}"?'),
+                                backgroundColor: Color.fromRGBO(182, 108, 108, 1),
+                            action: SnackBarAction(
+                                label: 'SIM',
+                                textColor: themes.colorScheme.inversePrimary,
+                                onPressed: () {
+                                  ProjectService()
+                                      .deleteProject(widget.projectModel.id);
+                                  Navigator.pop(context);
+                                }),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         },
                         child: Icon(Icons.delete_outline_outlined,
                             color: Color.fromRGBO(182, 108, 108, 1)),
@@ -135,7 +199,8 @@ class _ProjectDetailsViewState extends State<ProjectDetailsView> {
                   ),
                   Padding(
                       padding: const EdgeInsets.only(top: 7, left: 26),
-                      child: PriorityTag(priority: widget.projectModel.priority!)),
+                      child:
+                          PriorityTag(priority: widget.projectModel.priority!)),
                 ],
               ),
               Padding(
@@ -163,7 +228,8 @@ class _ProjectDetailsViewState extends State<ProjectDetailsView> {
                               fontWeight: FontWeight.bold,
                               fontFamily: 'Lato')),
                       const SizedBox(height: 5),
-                      Text(widget.projectModel.startDate.toString(), style: TextStyle(fontSize: 12)),
+                      Text(DateFormat('dd/MM/yyyy').format(widget.projectModel.startDate),
+                          style: TextStyle(fontSize: 12)),
                       const SizedBox(height: 12),
                       Text('Data de término',
                           style: TextStyle(
@@ -172,7 +238,8 @@ class _ProjectDetailsViewState extends State<ProjectDetailsView> {
                               fontWeight: FontWeight.bold,
                               fontFamily: 'Lato')),
                       const SizedBox(height: 5),
-                      Text(widget.projectModel.endDate.toString(), style: TextStyle(fontSize: 12)),
+                      Text(DateFormat('dd/MM/yyyy').format(widget.projectModel.endDate),
+                          style: TextStyle(fontSize: 12)),
                       const SizedBox(height: 12),
                       Text('Responsável',
                           style: TextStyle(
@@ -183,7 +250,8 @@ class _ProjectDetailsViewState extends State<ProjectDetailsView> {
                       const SizedBox(height: 5),
                       Padding(
                         padding: const EdgeInsets.only(top: 7, right: 30),
-                        child: UserTag(user: widget.projectModel.participant ?? ''),
+                        child: UserTag(
+                            user: widget.projectModel.participant ?? ''),
                       ),
                       const SizedBox(height: 12),
                       Row(
@@ -196,13 +264,13 @@ class _ProjectDetailsViewState extends State<ProjectDetailsView> {
                                   fontFamily: 'Lato')),
                           Padding(
                               padding: const EdgeInsets.only(left: 10),
-                              child: Text('${widget.projectModel.consumedHours.toString()}h',
+                              child: Text(
+                                  '${widget.projectModel.consumedHours.toString()}h',
                                   style: TextStyle(
                                     fontSize: 12,
                                   ))),
                         ],
                       ),
-          
                       const SizedBox(height: 5),
                       Container(
                         height: 200,
@@ -218,16 +286,19 @@ class _ProjectDetailsViewState extends State<ProjectDetailsView> {
                               RegisterModel register = widget.registers[index];
                               return ListTile(
                                 title: Text(register.user),
-                                subtitle: Text('${register.initialHour} - ${register.finalHour}'),
+                                subtitle: Text(
+                                    '${register.initialHour} - ${register.finalHour}'),
                                 trailing: Text(register.hours),
                               );
                             }),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: ActionButton(text: 'Novo registro de horas', onTap: () {
-                          navigateToAddRegister();
-                        }),
+                        child: ActionButton(
+                            text: 'Novo registro de horas',
+                            onTap: () {
+                              navigateToAddRegister();
+                            }),
                       )
                     ]),
               )

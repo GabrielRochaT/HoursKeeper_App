@@ -45,9 +45,8 @@ class _DatePickerFieldState extends State<DatePickerField> {
           );
 
           if (selectedDate != null) {
-            String formattedDate =
-                "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}";
-            widget.controller.text = formattedDate;
+ 
+            widget.controller.text = selectedDate.toString();
           }
         },
       ),

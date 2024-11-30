@@ -20,8 +20,8 @@ class _HourPickerFieldState extends State<HourPickerField> {
     DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
     );
 
     if (pickedDate != null) {

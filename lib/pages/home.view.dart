@@ -8,6 +8,7 @@ import 'package:hours_keeper/models/project.dart';
 import 'package:hours_keeper/pages/create_project.view.dart';
 import 'package:hours_keeper/pages/project_details.view.dart';
 import 'package:hours_keeper/utils/projects_service.dart';
+import 'package:hours_keeper/utils/status_updater.dart';
 
 class HomeView extends StatefulWidget {
   final User user;
@@ -18,6 +19,8 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  StatusUpdater? statusUpdater;
+
   void navigateToAddProject() {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => CreateProjectView()));
@@ -26,7 +29,21 @@ class _HomeViewState extends State<HomeView> {
   final ProjectService service = ProjectService();
 
   @override
+  void initState(){
+    super.initState();
+    statusUpdater = StatusUpdater(service);
+    statusUpdater!.startStatusUpdater();
+  }
+
+  @override
+  void dispose(){
+    statusUpdater?.stopTimer();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+  
     return Scaffold(
       backgroundColor: themes.colorScheme.surface,
       appBar: AppBar(
