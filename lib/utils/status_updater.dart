@@ -9,7 +9,6 @@ class StatusUpdater {
   StatusUpdater(this.projectService);
 
   void startStatusUpdater(){
-    print("STARTING TIMER");
     _timer = Timer.periodic(Duration(minutes: 1), (timer) async {
       await projectService.checkAndUpdateStatus();
     });

@@ -6,6 +6,7 @@ import 'package:hours_keeper/components/project_card.dart';
 import 'package:hours_keeper/components/theme.dart';
 import 'package:hours_keeper/models/project.dart';
 import 'package:hours_keeper/pages/create_project.view.dart';
+import 'package:hours_keeper/pages/create_register.view.dart';
 import 'package:hours_keeper/pages/project_details.view.dart';
 import 'package:hours_keeper/utils/projects_service.dart';
 import 'package:hours_keeper/utils/status_updater.dart';
@@ -24,6 +25,10 @@ class _HomeViewState extends State<HomeView> {
   void navigateToAddProject() {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => CreateProjectView()));
+  }
+  void navigateToAddRegister() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => CreateRegisterView()));
   }
 
   final ProjectService service = ProjectService();
@@ -77,7 +82,7 @@ class _HomeViewState extends State<HomeView> {
               Row(
                 children: [
                   Flexible(
-                      flex: 1, child: ActionButton(text: 'Registrar Horas')),
+                      flex: 1, child: ActionButton(text: 'Registrar Horas', onTap: navigateToAddRegister)),
                   const SizedBox(width: 17),
                   Flexible(
                     flex: 1,

@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hours_keeper/models/project.dart';
-import 'package:hours_keeper/models/register.dart';
 
 class ProjectService {
   String userId;
@@ -15,17 +14,6 @@ class ProjectService {
         .doc(projectModel.id)
         .set(projectModel.toMap());
   }
-
-  Future<void> createRegister(
-      String porjectId, RegisterModel registerModel) async {
-    return await _firestore
-        .collection(userId)
-        .doc(porjectId)
-        .collection('registers')
-        .doc(registerModel.id)
-        .set(registerModel.toMap());
-  }
-
   Stream<QuerySnapshot<Map<String, dynamic>>> getProjects(){
     return _firestore.collection(userId).orderBy("startDate", descending: true).snapshots();
   }
@@ -35,14 +23,12 @@ class ProjectService {
   }
 
   Future<void> checkAndUpdateStatus() async {
-  print("CHAMADO");
   final now = Timestamp.fromDate(DateTime.now());
 
   final projectsSnapshot = await _firestore
       .collection(userId)
       .where('status', isEqualTo: 'Em andamento')
       .get();
-  print("PROJETOS ENCONTRADOS: ${projectsSnapshot.docs.length}");
 
 
   List<DocumentSnapshot> filteredProjects = [];
@@ -57,7 +43,6 @@ class ProjectService {
 
   for (var doc in filteredProjects) {
     await _firestore.collection(userId).doc(doc.id).update({"status": "Pendente"});
-    print('PROJETO ATUALIZADO');
   }
 }
 
@@ -68,6 +53,16 @@ class ProjectService {
     }else{
       return await _firestore.collection(userId).doc(projectId).update({"status": "Em andamento"});
     }
+  }
+
+  sumHours(String projectId, int hours) async {
+    final consumedHours = await _firestore.collection(userId).doc(projectId).get().then((value) => value.data()?['consumedHours']);
+    return await _firestore.collection(userId).doc(projectId).update({"consumedHours": consumedHours + hours});
+  }
+
+  decraseHours(String projectId, int hours) async {
+    final consumedHours = await _firestore.collection(userId).doc(projectId).get().then((value) => value.data()?['consumedHours']);
+    return await _firestore.collection(userId).doc(projectId).update({"consumedHours": consumedHours - hours});
   }
 }
 

@@ -4,10 +4,11 @@ import 'package:hours_keeper/components/theme.dart';
 class HourPickerField extends StatefulWidget {
   final TextEditingController controller;
   final Function(String) onChanged;
+  final String? Function(String?)? validator;
 
   const HourPickerField({
     super.key,
-    required this.controller, required this.onChanged,
+    required this.controller, required this.onChanged, this.validator,
   });
 
   @override
@@ -21,7 +22,7 @@ class _HourPickerFieldState extends State<HourPickerField> {
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
+      lastDate: DateTime.now(),
     );
 
     if (pickedDate != null) {
@@ -53,7 +54,8 @@ class _HourPickerFieldState extends State<HourPickerField> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 24, right: 29, top: 8),
-      child: TextField(
+      child: TextFormField(
+        validator: widget.validator,
         controller: widget.controller,
         readOnly: true,
         decoration: InputDecoration(
@@ -73,11 +75,25 @@ class _HourPickerFieldState extends State<HourPickerField> {
             borderSide:
                 BorderSide(color: themes.colorScheme.tertiary, width: 3),
           ),
+
+          errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide:
+                    BorderSide(color: Color.fromRGBO(182, 108, 108, 1), width: 3),
+              ),
+
+              focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide:
+                    BorderSide(color: Color.fromRGBO(182, 108, 108, 1), width: 3),
+              ),
         ),
+        
         onTap: () async {
           await _selectHour(context);
         },
         onChanged: widget.onChanged,
+
       ),
     );
   }

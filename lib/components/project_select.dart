@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hours_keeper/components/theme.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hours_keeper/utils/projects_service.dart';
 
 class ProjectDropdown extends StatefulWidget {
-  final Function(String) onChanged;
+  final Function(String id, String title) onChanged;
 
   const ProjectDropdown({Key? key, required this.onChanged}) : super(key: key);
 
@@ -11,8 +13,8 @@ class ProjectDropdown extends StatefulWidget {
 }
 
 class _ProjectDropdownState extends State<ProjectDropdown> {
-  final List<String> projects = ["Projeto 1", "Projeto 2", "Projeto 3"];
-  String? selectedProject;
+  String? selectedProjectId;
+  String? selectedProjectTitle;
 
   @override
   Widget build(BuildContext context) {
@@ -22,33 +24,63 @@ class _ProjectDropdownState extends State<ProjectDropdown> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 8),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            decoration: BoxDecoration(
-              color: themes.colorScheme.inversePrimary,
-              border: Border.all(
-                color: themes.colorScheme.tertiary,
-                width: 3,
-              ),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: DropdownButton<String>(
-              value: selectedProject,
-              isExpanded: true,
-              underline: const SizedBox(), // Remove a linha padrão do Dropdown
-              items: projects.map((project) {
-                return DropdownMenuItem<String>(
-                  value: project,
-                  child: Text(project),
-                );
-              }).toList(),
-              onChanged: (value) {
-                setState(() {
-                  selectedProject = value;
-                });
-                widget.onChanged(value!);
-              },
-            ),
+          StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+            stream: ProjectService().getProjects(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
+
+              if (snapshot.hasError) {
+                return const Text('Erro ao carregar projetos');
+              }
+
+              if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                return const Text('Nenhum projeto disponível');
+              }
+
+              final projects = snapshot.data!.docs
+                  .where((doc) => doc.data()['status'] != 'Concluído')
+                  .map((doc) {
+                return {
+                  "id": doc.id, // Usando o ID do documento
+                  "title": doc.data()['title'] as String,
+                };
+              }).toList();
+
+              return Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                decoration: BoxDecoration(
+                  color: themes.colorScheme.inversePrimary,
+                  border: Border.all(
+                    color: themes.colorScheme.tertiary,
+                    width: 3,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: DropdownButton<String>(
+                  value: selectedProjectId,
+                  isExpanded: true,
+                  underline: const SizedBox(), // Remove a linha padrão
+                  items: projects.map((project) {
+                    return DropdownMenuItem<String>(
+                      value: project['id'], // ID como valor
+                      child: Text(project['title']!), // Exibe o título
+                      onTap: () {
+                        // Salva o título selecionado
+                        selectedProjectTitle = project['title'];
+                      },
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      selectedProjectId = value;
+                    });
+                    widget.onChanged(value!, selectedProjectTitle!);
+                  },
+                ),
+              );
+            },
           ),
         ],
       ),

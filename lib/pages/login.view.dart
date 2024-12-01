@@ -157,7 +157,7 @@ class _LoginViewState extends State<LoginView> {
       });
 
     }else{
-      print('Formulário inválido');
+      showSnackbar(context: context, message: 'Preencha os campos corretamente', isError: true);
     }
   }
 }

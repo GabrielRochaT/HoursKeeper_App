@@ -1,4 +1,3 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hours_keeper/components/date_field.dart';
@@ -19,22 +18,27 @@ class CreateProjectView extends StatefulWidget {
 }
 
 class _CreateProjectViewState extends State<CreateProjectView> {
+  final _formKey = GlobalKey<FormState>();
   final TextEditingController _title = TextEditingController();
   final TextEditingController _description = TextEditingController();
   final TextEditingController _startDate = TextEditingController();
   final TextEditingController _endDate = TextEditingController();
+  int _hours = 0;
   String? selectedPriority;
   bool isLoading = false;
 
-  ProjectService _projectService = ProjectService();
+  final ProjectService _projectService = ProjectService();
 
+  @override
   void initState() {
     if (widget.project != null) {
       _title.text = widget.project!.title;
       _description.text = widget.project!.description;
       _startDate.text = widget.project!.startDate.toString();
       _endDate.text = widget.project!.endDate.toString();
+      _hours = widget.project!.consumedHours;
       selectedPriority = widget.project!.priority;
+
     }
     super.initState();
   }
@@ -74,6 +78,7 @@ class _CreateProjectViewState extends State<CreateProjectView> {
                 ),
               ),
               Form(
+                key: _formKey,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -92,6 +97,15 @@ class _CreateProjectViewState extends State<CreateProjectView> {
                     Padding(
                       padding: const EdgeInsets.only(top: 8),
                       child: MyTextField(
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Campo obrigatório';
+                          }
+                          if (value.length < 3) {
+                            return 'Nome muito curto';
+                          }
+                          return null;
+                        },
                         controller: _title,
                         maxLenght: 25,
                         maxLines: 1,
@@ -113,6 +127,15 @@ class _CreateProjectViewState extends State<CreateProjectView> {
                     Padding(
                       padding: const EdgeInsets.only(top: 8),
                       child: MyTextField(
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Campo obrigatório';
+                          }
+                          if (value.length < 15) {
+                            return 'A descrição deve ter no mínimo 15 caracteres';
+                          }
+                          return null;
+                        },
                         controller: _description,
                         obscureText: false,
                         hintText: '',
@@ -138,7 +161,15 @@ class _CreateProjectViewState extends State<CreateProjectView> {
                                         fontFamily: 'Lato'),
                                   ),
                                 ),
-                                DatePickerField(controller: _startDate),
+                                DatePickerField(
+                                  controller: _startDate,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Campo obrigatório';
+                                    }
+                                    return null;
+                                  },
+                                ),
                               ],
                             ),
                           ),
@@ -157,7 +188,15 @@ class _CreateProjectViewState extends State<CreateProjectView> {
                                         fontFamily: 'Lato'),
                                   ),
                                 ),
-                                DatePickerField(controller: _endDate),
+                                DatePickerField(
+                                  controller: _endDate,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Campo obrigatório';
+                                    }
+                                    return null;
+                                  },
+                                ),
                               ],
                             ),
                           ),
@@ -254,39 +293,48 @@ class _CreateProjectViewState extends State<CreateProjectView> {
   }
 
   sendData() {
-    setState(() {
-      isLoading = true;
-    });
+    if (_formKey.currentState!.validate()) {
+      if (selectedPriority == null) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Selecione uma prioridade'),
+          backgroundColor: Color.fromRGBO(182, 108, 108, 1),
+        ));
+      } else {
+        setState(() {
+          isLoading = true;
+        });
 
-    String title = _title.text;
-    String description = _description.text;
-    DateTime startDate = DateTime.parse(_startDate.text);
-    DateTime endDate = DateTime.parse(_endDate.text);
-    String? priority = selectedPriority;
-    String status = 'Em andamento';
-    int consumedHours = 0;
-    String? participant = FirebaseAuth.instance.currentUser?.displayName;
+        String title = _title.text;
+        String description = _description.text;
+        DateTime startDate = DateTime.parse(_startDate.text);
+        DateTime endDate = DateTime.parse(_endDate.text);
+        String? priority = selectedPriority;
+        String status = 'Em andamento';
+        int consumedHours = _hours;
+        String? participant = FirebaseAuth.instance.currentUser?.displayName;
 
-    ProjectModel project = ProjectModel(
-        id: Uuid().v1(),
-        title: title,
-        description: description,
-        startDate: startDate,
-        endDate: endDate,
-        status: status,
-        priority: priority,
-        consumedHours: consumedHours,
-        participant: participant);
+        ProjectModel project = ProjectModel(
+            id: Uuid().v1(),
+            title: title,
+            description: description,
+            startDate: startDate,
+            endDate: endDate,
+            status: status,
+            priority: priority,
+            consumedHours: consumedHours,
+            participant: participant);
 
-        if (widget.project != null){
+        if (widget.project != null) {
           project.id = widget.project!.id;
         }
 
-    _projectService.createProject(project).then((value) {
-      setState(() {
-        isLoading = false;
-        Navigator.pop(context);
-      });
-    });
+        _projectService.createProject(project).then((value) {
+          setState(() {
+            isLoading = false;
+            Navigator.pop(context);
+          });
+        });
+      }
+    }
   }
 }

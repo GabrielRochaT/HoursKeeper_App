@@ -185,7 +185,7 @@ class _RegisterViewState extends State<RegisterView> {
             }
           });
     } else {
-      print('Não validado');
+      showSnackbar(context: context, message: 'Preencha todos os campos', isError: true);
     }
   }
 }

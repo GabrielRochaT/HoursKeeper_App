@@ -1,5 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hours_keeper/components/action_button.dart';
 import 'package:hours_keeper/components/drawer.dart';
 import 'package:hours_keeper/components/theme.dart';
 
@@ -8,8 +8,10 @@ class ProfileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var user = FirebaseAuth.instance.currentUser;
+
     return Scaffold(
-      backgroundColor: themes.colorScheme.surface,
+        backgroundColor: themes.colorScheme.surface,
         appBar: AppBar(
           backgroundColor: themes.colorScheme.primary,
           flexibleSpace: Padding(
@@ -23,85 +25,63 @@ class ProfileView extends StatelessWidget {
         ),
         drawer: MyDrawer(),
         body: SingleChildScrollView(
-          child: Center(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 50),
-                  child: CircleAvatar(
-                    radius: 60,
-                    backgroundColor: themes.colorScheme.secondary,
-                    child: Icon(Icons.person, color: themes.colorScheme.inversePrimary, size: 50),
-                  ),
+            child: Center(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 50),
+                child: CircleAvatar(
+                  radius: 60,
+                  backgroundColor: themes.colorScheme.secondary,
+                  child: Icon(Icons.person,
+                      color: themes.colorScheme.inversePrimary, size: 50),
                 ),
+              ),
 
-                      Wrap(
-                        children: [
-                          Text('Nome do Usuário', style: TextStyle(color: themes.colorScheme.tertiary, fontFamily: 'Lato', fontWeight: FontWeight.bold, fontSize: 24.0)),
-                          // Padding(
-                          //   padding: const EdgeInsets.only(left:0),
-                          //   child: GestureDetector(
-                          //     onTap: () {
-                          //       print('Edit');
-                          //     },
-                          //     child: Icon(Icons.mode_edit_outline_outlined, color: themes.colorScheme.primary, size: 24.0),
-                          //   ),
-                          // ),
-                        ],
-                      ),
-                      SizedBox(height: 15),
-                      Wrap(
-                        children: [
-                          Icon(Icons.alternate_email, color: themes.colorScheme.tertiary, size: 24.0),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 5),
-                            child: Text('email@example.com.br')),
-                        ],
-                      ),
-                      SizedBox(height: 15),
-                      Wrap(
-                        children: [
-                          Icon(Icons.phone, color: themes.colorScheme.tertiary, size: 24.0),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 5),
-                            child: Text('(85) 940028922')),
-                        ],
-                      ),
-                      SizedBox(height: 15),
-                      Wrap(
-                        children: [
-                          Icon(Icons.work_outline, color: themes.colorScheme.tertiary, size: 24.0),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 5),
-                            child: Text('Programador')),
-                        ],
-                      ),
-                      SizedBox(height: 15),
-                      Wrap(
-                        children: [
-                          Icon(Icons.lock, color: themes.colorScheme.tertiary, size: 24.0),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 5),
-                            child: Text('******')),
-                        ],
-                      ),
-                      SizedBox(height: 15),
+              Wrap(
+                children: [
+                  Text('${user?.displayName}',
+                      style: TextStyle(
+                          color: themes.colorScheme.tertiary,
+                          fontFamily: 'Lato',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 24.0)),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(left:0),
+                  //   child: GestureDetector(
+                  //     onTap: () {
+                  //       print('Edit');
+                  //     },
+                  //     child: Icon(Icons.mode_edit_outline_outlined, color: themes.colorScheme.primary, size: 24.0),
+                  //   ),
+                  // ),
+                ],
+              ),
+              SizedBox(height: 15),
+              Wrap(
+                children: [
+                  Icon(Icons.alternate_email,
+                      color: themes.colorScheme.tertiary, size: 24.0),
+                  Padding(
+                      padding: const EdgeInsets.only(left: 5),
+                      child: Text('${user?.email}')),
+                ],
+              ),
 
-                      Padding(
-                        padding: const EdgeInsets.all(50),
-                        child: ActionButton(text: 'Editar Perfil'),
-                      ),
-                      
-
-
-                      // Icon(Icons.mode_edit_outline_outlined, color: themes.colorScheme.primary, size: 24.0),
-      
-              ],
-            ),
-          )
-
-        )
-      
-    );
+              SizedBox(height: 15),
+              Wrap(
+                children: [
+                  Icon(Icons.lock,
+                      color: themes.colorScheme.tertiary, size: 24.0),
+                  Padding(
+                      padding: const EdgeInsets.only(left: 5),
+                      child: Text('******')),
+                ],
+              ),
+              SizedBox(height: 15),
+              // Icon(Icons.mode_edit_outline_outlined, color: themes.colorScheme.primary, size: 24.0),
+            ],
+          ),
+        )));
   }
 }
