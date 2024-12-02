@@ -32,11 +32,3 @@ Este projeto foi desenvolvido como parte da avaliação da disciplina de **Progr
 
 - **Firebase Firestore:**  
   Banco de dados em tempo real para armazenamento e sincronização de dados.
-
-## Pré-requisitos
-
-Para executar este projeto localmente, você precisará ter instalado:
-
-- [Flutter SDK](https://flutter.dev/docs/get-started/install)
-- [Firebase CLI](https://firebase.google.com/docs/cli)
-
