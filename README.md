@@ -1,16 +1,42 @@
-# hours_keeper
+# Hours Keeper
 
-A new Flutter project.
+![Banner do app](https://i.imgur.com/z2vW06Y.png)
 
-## Getting Started
+## Descrição
 
-This project is a starting point for a Flutter application.
+**Hours Keeper** é um aplicativo desenvolvido para ajudar no gerenciamento de projetos e no acompanhamento do tempo dedicado a cada um deles. Oferece uma interface intuitiva e prática para monitorar suas atividades, facilitando o controle do seu dia a dia.
 
-A few resources to get you started if this is your first Flutter project:
+Este projeto foi desenvolvido como parte da avaliação da disciplina de **Programação Mobile** e é um exemplo prático de como tecnologias modernas podem ser aplicadas para resolver problemas do cotidiano.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Funcionalidades
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- **Gerenciamento de Projetos:**  
+  Adicione, edite e remova projetos facilmente.
+  
+- **Rastreamento de Tempo:**  
+  Monitore e registre o tempo gasto em cada projeto.
+
+- **Autenticação Segura:**  
+  Login e cadastro de usuários utilizando **Firebase Authentication**.
+
+- **Armazenamento em Nuvem:**  
+  Salve e sincronize os dados do aplicativo com o **Firebase Firestore**.
+
+## Tecnologias Utilizadas
+
+- **Flutter:**  
+  Framework para desenvolvimento de aplicativos móveis multiplataforma (Android e iOS).
+
+- **Firebase Authentication:**  
+  Fornece autenticação segura com suporte a login por e-mail e senha.
+
+- **Firebase Firestore:**  
+  Banco de dados em tempo real para armazenamento e sincronização de dados.
+
+## Pré-requisitos
+
+Para executar este projeto localmente, você precisará ter instalado:
+
+- [Flutter SDK](https://flutter.dev/docs/get-started/install)
+- [Firebase CLI](https://firebase.google.com/docs/cli)
+
